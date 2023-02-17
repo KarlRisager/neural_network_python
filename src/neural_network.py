@@ -1,9 +1,15 @@
 import numpy as np
+from layer import Layer
 
 class NeuralNetwork:
 
-    def __init__(self) -> None:
+    def __init__(self):
         self.layers = np.array([])
+    
+
+
+    def add_layer(self, width):
+        self.layers = np.append(self.layers, Layer(width))
 
     
     def Forward(self):
@@ -16,15 +22,6 @@ class NeuralNetwork:
     def train(self, data, labels):
         pass
 
+    def show_structur(self):
+        print(self.layers)
 
-
-
-
-
-
-
-
-
-
-
-print('hello')
