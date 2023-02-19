@@ -10,6 +10,9 @@ def BinStep_nv(val):
 def Sigmoid_nv(val):
     return 1/(1+np.exp(-val))
 
+def deriv_Sigmoid_nv(val):
+    return Sigmoid_nv(val)(1-Sigmoid_nv(val))
+
 def Tanh_nv(val):
     return (np.exp(val)- np.exp(-val))/(np.exp(val)+ np.exp(-val))
 
@@ -23,7 +26,13 @@ def SoftMax(vals):
         return_array[i] = np.exp(val)/s
     return return_array
 
+def deriv_SoftMax(vals: np.ndarray):
+    '''Currently only returns 1
+    '''
+    return np.full(vals.size,1)
+
 BinStep = np.vectorize(BinStep_nv)
 Sigmoid = np.vectorize(Sigmoid_nv)
+deriv_Sigmoid = np.vectorize(deriv_Sigmoid_nv)
 Tanh = np.vectorize(Tanh_nv)
 ReLU = np.vectorize(ReLU_nv)

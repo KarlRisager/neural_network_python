@@ -27,8 +27,19 @@ class NeuralNetwork:
             print(self.layers[i+1])
 
 
-    def BackPropegation(self):
-        self
+    def BackPropegation(self, Labels: np.ndarray):
+        '''Incorrect and unfinnished'''
+        m = Labels.size
+        dZ2 = 2(self.layers[-1]-Labels)
+        dW2 = (1/m)*dZ2.dot(self.layers[-2].T)*deriv_SoftMax(dZ2)
+        dB2 = (1/m)*np.sum(dZ2)
+
+        dZ1 = self.layers[-2].T.dot(dZ2)*deriv_Sigmoid()
+
+
+
+
+        return
     
 
     def train(self, data, labels):
