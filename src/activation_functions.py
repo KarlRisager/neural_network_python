@@ -7,17 +7,27 @@ def BinStep_nv(val):
     else:
         return 1
     
+
+    
 def Sigmoid_nv(val):
     return 1/(1+np.exp(-val))
 
 def deriv_Sigmoid_nv(val):
     return Sigmoid_nv(val)(1-Sigmoid_nv(val))
 
+
+
 def Tanh_nv(val):
     return (np.exp(val)- np.exp(-val))/(np.exp(val)+ np.exp(-val))
 
 def ReLU_nv(val, leak = 0):
     return max(leak*val, val)
+
+def deriv_ReLU_nv(val):
+    if val>0:
+        return 1
+    else:
+        return 0
 
 def SoftMax(vals):
     return_array = np.zeros(len(vals))
@@ -36,3 +46,4 @@ Sigmoid = np.vectorize(Sigmoid_nv)
 deriv_Sigmoid = np.vectorize(deriv_Sigmoid_nv)
 Tanh = np.vectorize(Tanh_nv)
 ReLU = np.vectorize(ReLU_nv)
+deriv_ReLU = np.vectorize(deriv_ReLU_nv)
