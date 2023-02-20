@@ -38,7 +38,7 @@ class NeuralNetwork:
             print(self.layers[i+1])
 
 
-    def BackPropegation(self, Labels: np.ndarray):
+    def BackPropagation(self, Labels: np.ndarray):
         '''Incorrect and unfinnished'''
         m = Labels.size
         dZ2 = 2(self.layers[-1]-Labels)
