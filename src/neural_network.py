@@ -15,9 +15,10 @@ class NeuralNetwork:
     
 
 
-    def add_layer(self, width, Input = False):
+    def add_layer(self, width, Input = False, activation=None):
         '''Parameters:\n
-            width, The number of nourons in the layer'''
+            width, The number of nourons in the layer\n
+            Activation function is currently global and not local to each layer'''
         if not(Input):
             self.Biases.append(np.random.rand(width))
             self.Weights.append(np.random.rand(len(self.layers[-1]), width))
@@ -26,6 +27,7 @@ class NeuralNetwork:
 
     
     def Forward(self, data, activation=ReLU):
+        #not used yet
         self.nonactivated_layers = self.layers
         self.layers[0] = data
         self.nonactivated_layers = data
@@ -51,9 +53,11 @@ class NeuralNetwork:
         return
     
 
-    def train(self, data, labels):
+    def train(self, data, labels, num_epochs):
         pass
 
     def show_structur(self):
         print(self.layers)
-
+    
+    def Loss(self, Y, Y_pred):
+        return (1/Y.size) * np.sum(np.power(Y_pred-Y, 2))
