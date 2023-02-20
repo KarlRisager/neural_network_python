@@ -40,6 +40,7 @@ class NeuralNetwork:
 
     def BackPropagation(self, Labels: np.ndarray):
         '''Incorrect and unfinnished'''
+        raise NotImplementedError('Not implemented yet')
         m = Labels.size
         dZ2 = 2(self.layers[-1]-Labels)
         dW2 = (1/m)*dZ2.dot(self.layers[-2].T)
@@ -54,7 +55,7 @@ class NeuralNetwork:
     
 
     def train(self, data, labels, num_epochs, step_size):
-        '''Should do loop through epochs. For each iteration do forward propagation on data,
+        '''NOT implemented - Should do loop through epochs. For each iteration do forward propagation on data,
           then do back propagation to calculate gradient and adjust weights and biases acording to gradient and step size\n\n
 
           data:\n
@@ -70,7 +71,7 @@ class NeuralNetwork:
           \t Function determining the stepsize as function of epoch\n
           '''
 
-        pass
+        raise NotImplementedError('Not implemented yet')
 
     def show_structur(self):
         print(self.layers)
