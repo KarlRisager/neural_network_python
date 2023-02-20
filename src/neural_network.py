@@ -53,7 +53,23 @@ class NeuralNetwork:
         return
     
 
-    def train(self, data, labels, num_epochs):
+    def train(self, data, labels, num_epochs, step_size):
+        '''Should do loop through epochs. For each iteration do forward propagation on data,
+          then do back propagation to calculate gradient and adjust weights and biases acording to gradient and step size\n\n
+
+          data:\n
+          \t Numpy 2d array containing training data. Each subarray represents one data point\n
+
+          labels:\n
+          \t Numpy array containing the labels of each datapoint\n
+
+          num_epochs:\n
+          \t Number of epochs to train the data\n
+
+          step_size:\n
+          \t Function determining the stepsize as function of epoch\n
+          '''
+
         pass
 
     def show_structur(self):
