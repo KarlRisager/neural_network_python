@@ -15,7 +15,7 @@ class NeuralNetwork:
     
 
 
-    def add_layer(self, width, Input = False, activation=None):
+    def addLayer(self, width, Input = False, activation=None):
         '''Parameters:\n
             width, The number of nourons in the layer\n
             Activation function is currently global and not local to each layer'''
@@ -38,7 +38,7 @@ class NeuralNetwork:
             print(self.layers[i+1])
 
 
-    def BackPropagation(self, Labels: np.ndarray):
+    def backPropagation(self, Labels: np.ndarray):
         '''Incorrect and unfinnished'''
         raise NotImplementedError('Not implemented yet')
         m = Labels.size
@@ -54,7 +54,7 @@ class NeuralNetwork:
         return
     
 
-    def train(self, data, labels, num_epochs, step_size):
+    def fit(self, data, labels, num_epochs, step_size):
         '''NOT implemented - Should do loop through epochs. For each iteration do forward propagation on data,
           then do back propagation to calculate gradient and adjust weights and biases acording to gradient and step size\n\n
 
@@ -73,7 +73,7 @@ class NeuralNetwork:
 
         raise NotImplementedError('Not implemented yet')
 
-    def show_structur(self):
+    def showStructur(self):
         print(self.layers)
     
     def Loss(self, Y, Y_pred):
