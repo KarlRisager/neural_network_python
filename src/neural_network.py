@@ -51,10 +51,31 @@ class NeuralNetwork:
                 self.layers[i+1] = SoftMax(self.layers[i+1])
 
 
-    def backPropagation(self, labels: np.ndarray):
+    def backPropagation(self, labels: np.ndarray, deriv_act = deriv_ReLU):
         '''Incorrect and unfinnished'''
         m = labels.size
-        dZ = (self.layers[-1]-labels)
+        #dL/dy
+        dY = (self.layers[-1]-labels)
+        #dL/dAn
+        dAn = dY*deriv_act(self.nonactivatedLayers[-1])
+        #dL/dWn NOT TRUE
+        dWn = dAn*self.weights[-1]
+        #dL/dBn
+        dBn = dAn
+        #dZn-1 = Wn^T, dAn-1 = dZn-1*h'(An-2)
+        #temp
+        dA = dAn
+        
+        for i in range(2, self.Depth+1):
+            dZ = dA.dot(np.transpose(self.weights[-(i-1)]))#i or (i-1)?
+            dA = dZ*deriv_act(self.nonactivatedLayers[-i])
+            #NOT TRUE
+            dW = dA*self.weights[-i]#NOOOOOO
+            dB = dA
+
+            
+
+
         raise NotImplementedError('Not implemented yet')
         dZ2 = 2(self.layers[-1]-Labels)
         dW2 = (1/m)*dZ2.dot(self.layers[-2].T)
