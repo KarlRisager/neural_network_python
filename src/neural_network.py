@@ -8,9 +8,11 @@ class NeuralNetwork:
 
     def __init__(self):
         self.layers = []
-        self.nonactivated_layers = []
-        self.Weights = []
-        self.Biases = []
+        self.nonactivatedLayers = []
+        self.weights = []
+        self.weightGrad = []
+        self.biases = []
+        self.biasGrad = []
         self.Depth = 0
     
 
@@ -19,29 +21,41 @@ class NeuralNetwork:
         '''Parameters:\n
             width, The number of nourons in the layer\n
             Activation function is currently global and not local to each layer'''
+        #If the layer isn't the input layer we add weights and biases aswell
+        #They are initalized randomly. We also add the gradient
         if not(Input):
-            self.Biases.append(np.random.rand(width))
-            self.Weights.append(np.random.rand(len(self.layers[-1]), width))
+            previousLayerLength = len(self.layers[-1])
+            self.biases.append(np.random.rand(width))
+            self.biasGrad.append(np.zeros(width))
+            self.weights.append(np.random.rand(width, previousLayerLength))
+            self.weightGrad.append(np.zeros((width, previousLayerLength)))
         self.layers.append(np.zeros(width))
+        self.nonactivatedLayers.append(np.zeros(width))
         self.Depth +=1
 
     
     def Forward(self, data, activation=ReLU):
-        #not used yet
-        self.nonactivated_layers = self.layers
         self.layers[0] = data
-        self.nonactivated_layers = data
+        self.nonactivatedLayers[0] = data
+
         for i, layer in enumerate(self.layers[1:]):
-            self.layers[i+1] = activation(np.dot(self.layers[i], self.Weights[i])+ self.Biases[i])
+            #computing the linear combination
+            linear =  self.weights[i].dot(self.layers[i])+ self.biases[i]
+
+            #Updating layers
+            self.nonactivatedLayers[i+1] = linear
+            self.layers[i+1] = activation(linear)
+
+            #using softmax if last layer
             if i==self.Depth-2:
                 self.layers[i+1] = SoftMax(self.layers[i+1])
-            print(self.layers[i+1])
 
 
-    def backPropagation(self, Labels: np.ndarray):
+    def backPropagation(self, labels: np.ndarray):
         '''Incorrect and unfinnished'''
+        m = labels.size
+        dZ = (self.layers[-1]-labels)
         raise NotImplementedError('Not implemented yet')
-        m = Labels.size
         dZ2 = 2(self.layers[-1]-Labels)
         dW2 = (1/m)*dZ2.dot(self.layers[-2].T)
         dB2 = (1/m)*np.sum(dZ2)
@@ -76,5 +90,5 @@ class NeuralNetwork:
     def showStructur(self):
         print(self.layers)
     
-    def Loss(self, Y, Y_pred):
+    def loss(self, Y, Y_pred):
         return (1/Y.size) * np.sum(np.power(Y_pred-Y, 2))
