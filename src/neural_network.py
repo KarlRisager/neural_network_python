@@ -8,56 +8,56 @@ class NeuralNetwork:
 
     def __init__(self):
         self.layers = []
-        self.nonactivatedLayers = []
+        self.nonactivated_layers = []
         self.weights = []
-        self.weightGrad = []
+        self.weight_grad = []
         self.biases = []
-        self.biasGrad = []
-        self.Depth = 0
+        self.bias_grad = []
+        self.depth = 0
     
 
 
-    def addLayer(self, width, Input = False, activation=None):
+    def add_layer(self, width, Input = False, activation=None):
         '''Parameters:\n
             width, The number of nourons in the layer\n
             Activation function is currently global and not local to each layer'''
         #If the layer isn't the input layer we add weights and biases aswell
         #They are initalized randomly. We also add the gradient
         if not(Input):
-            previousLayerLength = len(self.layers[-1])
+            previous_layer_length = len(self.layers[-1])
             self.biases.append(np.random.rand(width))
-            self.biasGrad.append(np.zeros(width))
-            self.weights.append(np.random.rand(width, previousLayerLength))
-            self.weightGrad.append(np.zeros((width, previousLayerLength)))
+            self.bias_grad.append(np.zeros(width))
+            self.weights.append(np.random.rand(width, previous_layer_length))
+            self.weight_grad.append(np.zeros((width, previous_layer_length)))
         self.layers.append(np.zeros(width))
-        self.nonactivatedLayers.append(np.zeros(width))
-        self.Depth +=1
+        self.nonactivated_layers.append(np.zeros(width))
+        self.depth +=1
 
     
-    def Forward(self, data, activation=ReLU):
+    def forward(self, data, activation=ReLU):
         self.layers[0] = data
-        self.nonactivatedLayers[0] = data
+        self.nonactivated_layers[0] = data
 
         for i, layer in enumerate(self.layers[1:]):
             #computing the linear combination
             linear =  self.weights[i].dot(self.layers[i])+ self.biases[i]
 
             #Updating layers
-            self.nonactivatedLayers[i+1] = linear
+            self.nonactivated_layers[i+1] = linear
             self.layers[i+1] = activation(linear)
 
             #using softmax if last layer
-            if i==self.Depth-2:
+            if i==self.depth-2:
                 self.layers[i+1] = SoftMax(self.layers[i+1])
 
 
-    def backPropagation(self, labels: np.ndarray, deriv_act = deriv_ReLU):
+    def back_propagation(self, labels: np.ndarray, deriv_act = deriv_ReLU):
         '''Incorrect and unfinnished'''
         m = labels.size
         #dL/dy
         dY = (self.layers[-1]-labels)
         #dL/dAn
-        dAn = dY*deriv_act(self.nonactivatedLayers[-1])
+        dAn = dY*deriv_act(self.nonactivated_layers[-1])
         #dL/dWn NOT TRUE
         dWn = dAn*self.weights[-1]
         #dL/dBn
@@ -66,9 +66,9 @@ class NeuralNetwork:
         #temp
         dA = dAn
         
-        for i in range(2, self.Depth+1):
+        for i in range(2, self.depth+1):
             dZ = dA.dot(np.transpose(self.weights[-(i-1)]))#i or (i-1)?
-            dA = dZ*deriv_act(self.nonactivatedLayers[-i])
+            dA = dZ*deriv_act(self.nonactivated_layers[-i])
             #NOT TRUE
             dW = dA*self.weights[-i]#NOOOOOO
             dB = dA
@@ -108,7 +108,7 @@ class NeuralNetwork:
 
         raise NotImplementedError('Not implemented yet')
 
-    def showStructur(self):
+    def show_structur(self):
         print(self.layers)
     
     def loss(self, Y, Y_pred):
