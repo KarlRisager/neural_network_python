@@ -53,35 +53,26 @@ class NeuralNetwork:
 
     def back_propagation(self, labels: np.ndarray, deriv_act = deriv_ReLU):
         '''Incorrect and unfinnished'''
-        m = labels.size
         #dL/dy
         dY = (self.layers[-1]-labels)
         #dL/dAn
         dAn = dY*deriv_act(self.nonactivated_layers[-1])
         #dL/dWn NOT TRUE
-        dWn = dAn*self.weights[-1]
+        self.weight_grad[-1] = dAn*self.weights[-1].T
         #dL/dBn
-        dBn = dAn
+        self.bias_grad[-1] = dAn
         #dZn-1 = Wn^T, dAn-1 = dZn-1*h'(An-2)
         #temp
         dA = dAn
         
-        for i in range(2, self.depth+1):
-            dZ = dA.dot(np.transpose(self.weights[-(i-1)]))#i or (i-1)?
+        for i in range(2, self.depth):
+            dZ = dA @ self.weights[-(i-1)]
             dA = dZ*deriv_act(self.nonactivated_layers[-i])
-            #NOT TRUE
-            dW = dA*self.weights[-i]#NOOOOOO
-            dB = dA
+            self.weight_grad[-i] = dA*self.weights[-i].T
+            self.bias_grad[-i] = dA
 
             
 
-
-        raise NotImplementedError('Not implemented yet')
-        dZ2 = 2(self.layers[-1]-Labels)
-        dW2 = (1/m)*dZ2.dot(self.layers[-2].T)
-        dB2 = (1/m)*np.sum(dZ2)
-
-        dZ1 = self.Weights[-2].T.dot(dZ2)*deriv_ReLU()
 
 
 
@@ -107,6 +98,9 @@ class NeuralNetwork:
           '''
 
         raise NotImplementedError('Not implemented yet')
+
+    def one_hot_encode(labels):
+        raise NotImplementedError('not yet implemented')
 
     def show_structur(self):
         print(self.layers)
