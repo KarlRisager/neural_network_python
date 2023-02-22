@@ -8,11 +8,15 @@ class NeuralNetwork:
 
     def __init__(self):
         self.layers = []
+        #Layer values before activation function
         self.nonactivated_layers = []
         self.weights = []
+        #gradient of the loss function with respect to the weigths
         self.weight_grad = []
         self.biases = []
+        #gradient of the loss function with respect to the biases
         self.bias_grad = []
+        #Depth of the neural network(number of layers)
         self.depth = 0
     
 
@@ -57,12 +61,11 @@ class NeuralNetwork:
         dY = (self.layers[-1]-labels)
         #dL/dAn
         dAn = dY*deriv_act(self.nonactivated_layers[-1])
-        #dL/dWn NOT TRUE
+        #dL/dWn
         self.weight_grad[-1] = dAn*self.weights[-1].T
         #dL/dBn
         self.bias_grad[-1] = dAn
-        #dZn-1 = Wn^T, dAn-1 = dZn-1*h'(An-2)
-        #temp
+        #temp value for the layer that we are currently at
         dA = dAn
         
         for i in range(2, self.depth):
@@ -70,6 +73,7 @@ class NeuralNetwork:
             dA = dZ*deriv_act(self.nonactivated_layers[-i])
             self.weight_grad[-i] = dA*self.weights[-i].T
             self.bias_grad[-i] = dA
+        self.weight_grad = np.flip(self.weight_grad)
 
             
 
@@ -106,4 +110,4 @@ class NeuralNetwork:
         print(self.layers)
     
     def loss(self, Y, Y_pred):
-        return (1/Y.size) * np.sum(np.power(Y_pred-Y, 2))
+        return (1/len(Y)) * np.sum(np.power(Y_pred-Y, 2))
