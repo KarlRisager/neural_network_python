@@ -103,7 +103,7 @@ class NeuralNetwork:
 
         raise NotImplementedError('Not implemented yet')
 
-    def one_hot_encode(labels):
+    def one_hot_encode(labels, drop_first = False):
         raise NotImplementedError('not yet implemented')
 
     def show_structur(self):
