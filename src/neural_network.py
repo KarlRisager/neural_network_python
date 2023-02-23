@@ -104,13 +104,14 @@ class NeuralNetwork:
         raise NotImplementedError('Not implemented yet')
 
     def one_hot_encode(self,labels):
-        hot_encode_length = np.max(labels)
+        hot_encode_length = int(np.max(labels))
         number_of_labels = len(labels)
         array_shape = (hot_encode_length,number_of_labels)
         encoded = np.zeros(array_shape)
 
         for i,value in enumerate(labels):
-            encoded[value-1][i] = 1
+            v = int(value)
+            encoded[v-1][i] = 1
 
         return encoded
 
