@@ -103,10 +103,19 @@ class NeuralNetwork:
 
         raise NotImplementedError('Not implemented yet')
 
-    def one_hot_encode(labels, drop_first = False):
-        raise NotImplementedError('not yet implemented')
+    def one_hot_encode(self,labels):
+        hot_encode_length = np.max(labels) 
+        number_of_labels = len(labels)
+        array_shape = (number_of_labels,hot_encode_length)
+        encoded = np.zeros(array_shape)
 
-    def show_structur(self):
+        for i,value in np.ndenumerate(labels):
+            encoded[i][value-1] = 1
+
+        return encoded
+
+
+    def show_structure(self):
         print(self.layers)
     
     def loss(self, Y, Y_pred):
